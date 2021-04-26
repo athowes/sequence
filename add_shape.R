@@ -1,5 +1,6 @@
 library(ggplot2)
 library(tidyverse)
+library(sf)
 
 # Public sequencing data
 cog <- read.csv("data/input/cog_metadata_microreact_geocodes_only.csv")

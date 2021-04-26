@@ -2,10 +2,10 @@ library(ggplot2)
 library(tidyverse)
 
 # Public sequencing data
-cog <- read.csv("cog_metadata_microreact_geocodes_only.csv")
+cog <- read.csv("data/input/cog_metadata_microreact_geocodes_only.csv")
 
 # From https://www.iso.org/obp/ui/#iso:code:3166:GB
-iso_3166_gb <- readODS::read_ods("iso_3166_gb.ods")
+iso_3166_gb <- readODS::read_ods("data/input/iso_3166_gb.ods")
 
 # Just London
 iso_3166_ldn <- iso_3166_gb %>%
@@ -20,7 +20,7 @@ nrow(iso_3166_ldn) # 32 boroughs and 1 city corporation
 cog_ldn <- cog %>%
   filter(iso_3166_code %in% iso_3166_ldn$iso_3166_code)
 
-gadm36_GBR_3_sf <- readRDS("gadm36_GBR_3_sf.rds")
+gadm36_GBR_3_sf <- readRDS("data/input/gadm36_GBR_3_sf.rds")
 
 gadm36_GBR_3_sf_ldn <- gadm36_GBR_3_sf %>%
   filter(NAME_3 %in% iso_3166_ldn$NAME_3) %>%
@@ -32,3 +32,5 @@ ggplot(data = gadm36_GBR_3_sf_ldn) +
 
 cog_ldn_sf <- cog_ldn %>%
   left_join(gadm36_GBR_3_sf_ldn, by = "iso_3166_code")
+
+saveRDS(cog_ldn_sf, "data/output/cog_metadata_microreact_geocodes_only_sf.rds")

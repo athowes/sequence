@@ -48,6 +48,9 @@ cog_eng <- cog %>%
   filter(adm1 %in% c("UK-ENG"))
 dim(cog_eng)
 
+# Showing that some of the GB-SWA rows are in UK-WLS, UK-ENG and UK-SCT (!)
+cog %>% filter(iso_3166_code == "GB-SWA") %>% select(adm1) %>% unique()
+
 cog_merged_all <- merge(cog, iso_3166_gb_region, by = "iso_3166_code", fill = NA)
 dim(cog_merged_all)
 
@@ -62,4 +65,4 @@ missing_iso <- cog_eng$iso_3166_code[!(cog_eng$iso_3166_code %in% iso_3166_gb$is
 unique(missing_iso)
 
 missing_iso_region <- cog_eng$iso_3166_code[!(cog_eng$iso_3166_code %in% iso_3166_gb_region$iso_3166_code)]
-unique(missing_iso_region)
+unique(missing_iso_region) # These are missing because they don't have a regional matching from iso_3166_gb.ods
